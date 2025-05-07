@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: webrise-project
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/webrise
+    username: user_webrise
+    password: 123456
+    driverClassName: org.postgresql.Driver
+    platform: postgres
+    initialization-mode: always
+    continue-on-error: true
+  jpa:
+    show-sql: false
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    properties:
+      hibernate:
+        format_sql: true
+
+  server:
+    port: 8080
+
+  logging:
+    level:
+      root: INFO
+      org.springframework.cloud: INFO
+      org.springframework.web: INFO
