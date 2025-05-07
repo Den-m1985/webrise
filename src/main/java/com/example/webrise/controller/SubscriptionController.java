@@ -22,7 +22,7 @@ public class SubscriptionController implements SubscriptionAPI {
     private final SubscriptionService subscriptionService;
 
     @PostMapping("/{userId}")
-    public ResponseEntity<?> addSubscription(@PathVariable Integer userId, @RequestBody SubscriptionDto dto) {
+    public ResponseEntity<Void> addSubscription(@PathVariable Integer userId, @RequestBody SubscriptionDto dto) {
         subscriptionService.addSubscription(userId, dto);
         return ResponseEntity.ok().build();
     }

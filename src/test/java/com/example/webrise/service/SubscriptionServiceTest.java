@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class SubscriptionServiceTest {
+class SubscriptionServiceTest {
     @Autowired
     private SubscriptionService subscriptionService;
     @Autowired
@@ -49,7 +49,7 @@ public class SubscriptionServiceTest {
     }
 
     @Test
-    public void testAddSubscription() {
+    void testAddSubscription() {
         SubscriptionDto dto = new SubscriptionDto(null, "YouTube Premium");
         subscriptionService.addSubscription(user.getId(), dto);
 
@@ -59,7 +59,7 @@ public class SubscriptionServiceTest {
     }
 
     @Test
-    public void testGetSubscriptions() {
+    void testGetSubscriptions() {
         subscriptionService.addSubscription(user.getId(), new SubscriptionDto(null, "Netflix"));
         subscriptionService.addSubscription(user.getId(), new SubscriptionDto(null, "VK Музыка"));
         List<SubscriptionDto> subscriptions = subscriptionService.getSubscriptions(user.getId());
@@ -67,7 +67,7 @@ public class SubscriptionServiceTest {
     }
 
     @Test
-    public void testDeleteSubscription() {
+    void testDeleteSubscription() {
         subscriptionService.addSubscription(user.getId(), new SubscriptionDto(null, "Яндекс.Плюс"));
         List<Subscription> subs = subscriptionRepository.findByUserId(user.getId());
         assertEquals(1, subs.size());
@@ -78,7 +78,7 @@ public class SubscriptionServiceTest {
     }
 
     @Test
-    public void testDeleteSubscription_NotOwned() {
+    void testDeleteSubscription_NotOwned() {
         User otherUser = new User();
         otherUser.setFirstName("Other");
         otherUser.setMiddleName("User");
@@ -99,14 +99,14 @@ public class SubscriptionServiceTest {
     }
 
     @Test
-    public void testAddSubscriptionToNonExistingUser() {
+    void testAddSubscriptionToNonExistingUser() {
         assertThatThrownBy(() ->
                 subscriptionService.addSubscription(user.getId() + 1, new SubscriptionDto(null, "Spotify"))
         ).isInstanceOf(EntityNotFoundException.class);
     }
 
     @Test
-    public void testGetTopSubscriptions() {
+    void testGetTopSubscriptions() {
         User user1 = user;
         User user2 = new User();
         user2.setFirstName("Second");

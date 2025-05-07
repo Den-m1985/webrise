@@ -10,6 +10,7 @@ import com.example.webrise.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class UserServiceTest {
+class UserServiceTest {
     @Autowired
     private UserService userService;
     @Autowired
@@ -47,7 +48,7 @@ public class UserServiceTest {
 
 
     @Test
-    public void createUserTest() {
+    void createUserTest() {
         userRepository.deleteAll();
         RegisterUserDto registerUserDto = new RegisterUserDto("Name", email, "password");
         AuthResponse resultUser = userService.createUser(registerUserDto);
@@ -55,20 +56,21 @@ public class UserServiceTest {
     }
 
     @Test
-    public void saveWithoutEmail() {
+    void saveWithoutEmail() {
         userRepository.deleteAll();
-        user = null;
-        assertThrows(DataIntegrityViolationException.class, () -> userService.saveUser(new User()));
+        user = new User();
+        Executable action = () -> userService.saveUser(user);
+        assertThrows(DataIntegrityViolationException.class, action);
     }
 
     @Test
-    public void shouldReturnUserByEmail() {
+    void shouldReturnUserByEmail() {
         User resultUser = userService.getUserByEmail(email);
         assertEquals(email, resultUser.getEmail());
     }
 
     @Test
-    public void shouldReturnUserById() {
+    void shouldReturnUserById() {
         User resultUser = userService.findUserById(user.getId());
         assertEquals(user.getId(), resultUser.getId());
     }
@@ -80,13 +82,13 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldThrowUserNotFound() {
+    void shouldThrowUserNotFound() {
         assertThatThrownBy(() -> userService.findUserById(user.getId() + 1))
                 .isInstanceOf(EntityNotFoundException.class);
     }
 
     @Test
-    public void updateUserTest() {
+    void updateUserTest() {
         String newEmail = "email@email.com";
         UserInfoDto userDto = new UserInfoDto("firstName",
                 "middleName",
@@ -99,7 +101,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void deleteUserTest() {
+    void deleteUserTest() {
         User userFromBD = userService.findUserById(user.getId());
         userService.deleteUser(userFromBD.getId());
         assertThatThrownBy(() -> userService.findUserById(user.getId()))
