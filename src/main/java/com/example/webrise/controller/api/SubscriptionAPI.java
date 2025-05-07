@@ -13,7 +13,7 @@ import java.util.List;
 public interface SubscriptionAPI {
 
     @Operation(summary = "Subscription add")
-    ResponseEntity<?> addSubscription(@PathVariable Integer userId, @RequestBody SubscriptionDto dto);
+    ResponseEntity<Void> addSubscription(@PathVariable Integer userId, @RequestBody SubscriptionDto dto);
 
     @Operation(summary = "Subscription get")
     List<SubscriptionDto> getSubscriptions(@PathVariable Integer userId);
